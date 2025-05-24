@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import authservice from "../Appwrite/Auth";
 import databasesService from "../Appwrite/Database";
 import { useNavigate } from "react-router-dom";
+import { isvalidEmail, isValidPassword } from "./Validator";
 
 const Signup = ({ setIsLoggedIn }) => {
   const [name, setName] = useState("");
@@ -14,9 +15,20 @@ const Signup = ({ setIsLoggedIn }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMsg(null);
-    if (!name || !email || !password) {
-      setError("All fields are required");
+    setErrorMsg("");
+    // Validation
+    if (!name) {
+      setErrorMsg("Name is required.");
+      return;
+    }
+    if (!isvalidEmail(email)) {
+      setErrorMsg("Please enter a valid email.");
+      return;
+    }
+    if (!isValidPassword(password)) {
+      setErrorMsg(
+        "Password must be 8+ characters and include at least one number."
+      );
       return;
     }
     try {
@@ -158,6 +170,11 @@ const Signup = ({ setIsLoggedIn }) => {
             Sign Up
           </button>
         </form>
+        {errorMsg && (
+          <div className="text-red-600 text-sm text-center mt-4">
+            {errorMsg}
+          </div>
+        )}
       </div>
     </div>
   );
