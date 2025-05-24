@@ -22,9 +22,12 @@ const Signup = ({ setIsLoggedIn }) => {
     try {
       // 1. Create account
       const session = await authservice.createAccount(email, password, name);
+      // 2) Fetch the *actual* user record (with $id)
+      const userRecord = await authservice.getUser();
       // 2. Create user document in DB
       await databasesService.createUserDocument({
-        userId: session.userId,
+        userId: userRecord.$id, // <-- correct Appwrite userId
+
         name,
         email,
         role,
