@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import authservice from "../Appwrite/Auth";
 import databasesService from "../Appwrite/Database";
 import { useNavigate, Link } from "react-router-dom";
+import { isvalidEmail, isValidPassword } from "./Validator";
 
 const Login = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState("");
@@ -13,8 +14,15 @@ const Login = ({ setIsLoggedIn }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-    if (!email || !password) {
-      setError("Email and password are required");
+    // Client-side validation
+    if (!isvalidEmail(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    if (!isValidPassword(password)) {
+      setError(
+        "Password must be at least 8 characters long and include a number."
+      );
       return;
     }
     try {
