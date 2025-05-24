@@ -52,9 +52,27 @@ export class Authservice {
 
   async Logout() {
     try {
-      return await this.account.deleteSession("current");
+      return await this.account.deleteSessions("current");
     } catch (error) {
       console.log("appwrite service :: logout :: error ", error);
+    }
+  }
+  async sendRecoveryEmail(email) {
+    const urlForReset = "http://localhost:5173/reset-password";
+    try {
+      await this.account.createRecovery(email, urlForReset);
+      alert("Check your email for password reset instructions!");
+    } catch (error) {
+      console.error("Failed to send recovery email:", err.message);
+    }
+  }
+
+  async resetPassword(userId, secret, pw, confirm) {
+    try {
+      await this.account.updateRecovery(userId, secret, pw, confirm);
+      alert("Password reset! You can now log in with your new password.");
+    } catch (err) {
+      console.error("Reset failed:", err.message);
     }
   }
 }
