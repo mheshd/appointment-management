@@ -11,11 +11,8 @@ const Home = () => {
       className="relative h-screen w-full overflow-hidden bg-center bg-cover"
       style={{ backgroundImage: `url(${backgroundUrl})` }}
     >
-      {/* Dark overlay to improve text contrast */}
-      <div className="absolute inset-10  bg-opacity-10" />
-
       {/* Centered content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center text-white">
+      <div className="relative  flex flex-col items-center justify-center h-full px-4 text-center text-white">
         <h1 className="text-4xl  sm:text-5xl md:text-6xl font-extrabold drop-shadow-lg">
           Welcome to My-Appoitment
         </h1>
